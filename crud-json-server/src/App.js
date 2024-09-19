@@ -15,7 +15,7 @@ class App extends React.Component {
     }
 
     getLists = () => {
-      fetch("http://localhost:5001/posts")
+      fetch("http://localhost:5001/posts") /* update posts */
       .then(res => res.json())
       .then(result => 
         this.setState ({
