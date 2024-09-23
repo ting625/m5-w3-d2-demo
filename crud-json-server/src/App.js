@@ -27,6 +27,42 @@ class App extends React.Component {
       )
       .catch(console.log);
     }
+
+    handleChange = (event) => {
+      let title = this.state.singledata.title;
+      let author = this.state.singledata.author;
+      if (event.target.name === "title") title = event.target.value;
+      else author = event.target.value;
+
+      this.setState({
+        singledata: {
+          title: title,
+          author: author
+        }
+      });
+    }
+
+    createList = () => {
+    
+      fetch("http://localhost:5001/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(this.state.singledata) 
+      })
+      .then(() => {
+        this.setState({
+          singledata: {
+            title: "",
+            author: ""
+          }
+        });
+        
+        this.getLists(); // Update list after adding
+      })
+      .catch(error => console.log("Failed to create list:", error));
+    }
     
     render() {
       const listTable = this.state.loading? ( <span>Loading Data.......Please be patience.</span>) : (<Lists alldata ={this.state.alldata} />);
@@ -41,7 +77,10 @@ class App extends React.Component {
              >
                 Get Lists
              </button>
-             <CreateList singledata={this.state.singledata} />
+             <CreateList singledata={this.state.singledata} 
+             handleChange={this.handleChange} 
+             createList={this.createList}
+             />
           </span>
           {listTable}
         </div>
