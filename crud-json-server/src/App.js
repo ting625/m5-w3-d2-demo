@@ -1,6 +1,6 @@
 import React from "react";
 import Lists from "./Lists"; 
-import CreateList from "./CreateList"; 
+import CreateList from "./CreateList";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends React.Component {
@@ -106,6 +106,27 @@ class App extends React.Component {
       });
     }
 
+
+    deleteList= (event, id) => {
+      fetch("http://localhost:5001/posts/" + id, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(this.state.singledata) 
+      })
+      .then(res => res.json ())
+      .then(result => {
+        this.setState({
+          singledata: {
+            title: "",
+            author: ""
+          }
+        });
+        this.getLists();
+      });
+    }
+
     render() {
       const listTable = this.state.loading? ( <span>Loading Data.......Please be patience.</span>) : (
       <Lists 
@@ -113,6 +134,7 @@ class App extends React.Component {
         singledata={this.state.singledata}
         getList={this.getList}
         updateList={this.updateList}
+        deleteList={this.deleteList}
         handleChange={this.handleChange}
         />);
       
