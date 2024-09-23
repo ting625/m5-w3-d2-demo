@@ -6,6 +6,7 @@ function UpdateList(props) {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
     return (
         <React.Fragment>
             <Button 
@@ -43,7 +44,13 @@ function UpdateList(props) {
                 <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={handleClose}>
+                <Button variant="primary" 
+                onClick= {(event) => {
+                    console.log("clicked to update entry")
+                    handleClose ();
+                    props.updateList(event,props.elementId);
+                    }}
+                >
                     Update
                 </Button>     
                 </Modal.Footer>
